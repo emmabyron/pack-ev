@@ -128,7 +128,7 @@ for item in mythics:
 for item in basics:
     costs[4] += item[1]
 
-for index in range(4):
+for index in range(5):
     costs[index] = round(costs[index], 2)
 
 ev = 0
