@@ -1,6 +1,6 @@
 import requests
 
-minPrice = 0.5
+minPrice = 0.33
 
 response = str(requests.get("https://api.scryfall.com/cards/search?q=s%3Aznr+is%3Abooster+r%3Ac+-t%3A\"basic+land\"").json())
 
