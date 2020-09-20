@@ -70,7 +70,7 @@ while response.find("'name'") != -1:
     if mythics[-1][1] < minPrice:
         mythics[-1][1] = 0
 
-response = str(requests.get("https://api.scryfall.com/cards/search?q=s%3Aznr+is%3Abooster+t%3A\"basic+land\"").json())
+response = str(requests.get("https://api.scryfall.com/cards/search?q=s%3Aznr+is%3Abooster+t%3A\"basic+land\"+unique%3Aprints").json())
 
 basics = []
 
