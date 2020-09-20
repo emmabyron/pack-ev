@@ -87,6 +87,91 @@ while response.find("'name'") != -1:
     if basics[-1][1] < minPrice:
         basics[-1][1] = 0
 
+response = str(requests.get("https://api.scryfall.com/cards/search?q=s%3Aznr+is%3Abooster+r%3Ac+-t%3A\"basic+land\"").json())
+
+foilC = []
+
+while response.find("'name'") != -1:
+    response = response[response.find("'name'") + 9:]
+
+    foilC.append([response[:response.find("'lang'") - 3], response[response.find("'usd_foil'") + 13:response.find("'eur'") - 3]])
+
+    try:
+        foilC[-1][1] = float(foilC[-1][1])
+    except:
+        foilC[-1][1] = 0
+    
+    if foilC[-1][1] < minPrice:
+        foilC[-1][1] = 0
+
+response = str(requests.get("https://api.scryfall.com/cards/search?q=s%3Aznr+is%3Abooster+r%3Au+-t%3A\"basic+land\"").json())
+
+foilU = []
+
+while response.find("'name'") != -1:
+    response = response[response.find("'name'") + 9:]
+
+    foilU.append([response[:response.find("'lang'") - 3], response[response.find("'usd_foil'") + 13:response.find("'eur'") - 3]])
+
+    try:
+        foilU[-1][1] = float(foilU[-1][1])
+    except:
+        foilU[-1][1] = 0
+    
+    if foilU[-1][1] < minPrice:
+        foilU[-1][1] = 0
+
+response = str(requests.get("https://api.scryfall.com/cards/search?q=s%3Aznr+is%3Abooster+r%3Ar+-t%3A\"basic+land\"").json())
+
+foilR = []
+
+while response.find("'name'") != -1:
+    response = response[response.find("'name'") + 9:]
+
+    foilR.append([response[:response.find("'lang'") - 3], response[response.find("'usd_foil'") + 13:response.find("'eur'") - 3]])
+
+    try:
+        foilR[-1][1] = float(foilR[-1][1])
+    except:
+        foilR[-1][1] = 0
+    
+    if foilR[-1][1] < minPrice:
+        foilR[-1][1] = 0
+
+response = str(requests.get("https://api.scryfall.com/cards/search?q=s%3Aznr+is%3Abooster+r%3Am+-t%3A\"basic+land\"").json())
+
+foilM = []
+
+while response.find("'name'") != -1:
+    response = response[response.find("'name'") + 9:]
+
+    foilM.append([response[:response.find("'lang'") - 3], response[response.find("'usd_foil'") + 13:response.find("'eur'") - 3]])
+
+    try:
+        foilM[-1][1] = float(foilM[-1][1])
+    except:
+        foilM[-1][1] = 0
+    
+    if foilM[-1][1] < minPrice:
+        foilM[-1][1] = 0
+
+response = str(requests.get("https://api.scryfall.com/cards/search?q=s%3Aznr+is%3Abooster+t%3A\"basic+land\"+unique%3Aprints").json())
+
+foilBasics = []
+
+while response.find("'name'") != -1:
+    response = response[response.find("'name'") + 9:]
+
+    foilBasics.append([response[:response.find("'lang'") - 3], response[response.find("'usd_foil'") + 13:response.find("'eur'") - 3]])
+
+    try:
+        foilBasics[-1][1] = float(foilBasics[-1][1])
+    except:
+        foilBasics[-1][1] = 0
+    
+    if foilBasics[-1][1] < minPrice:
+        foilBasics[-1][1] = 0
+
 for index in range(len(commons)):
     if commons[index][0].find("//") != -1:
         commons[index + 1] = "remove"
@@ -115,7 +200,35 @@ for index in range(len(mythics)):
 
 mythics = [item for item in mythics if item != "remove"]
 
-costs = [0, 0, 0, 0, 0]
+for index in range(len(foilC)):
+    if foilC[index][0].find("//") != -1:
+        foilC[index + 1] = "remove"
+        foilC[index + 2] = "remove"
+
+foilC = [item for item in foilC if item != "remove"]
+
+for index in range(len(foilU)):
+    if foilU[index][0].find("//") != -1:
+        foilU[index + 1] = "remove"
+        foilU[index + 2] = "remove"
+
+foilU = [item for item in foilU if item != "remove"]
+
+for index in range(len(foilR)):
+    if foilR[index][0].find("//") != -1:
+        foilR[index + 1] = "remove"
+        foilR[index + 2] = "remove"
+
+foilR = [item for item in foilR if item != "remove"]
+
+for index in range(len(foilM)):
+    if foilM[index][0].find("//") != -1:
+        foilM[index + 1] = "remove"
+        foilM[index + 2] = "remove"
+
+foilM = [item for item in foilM if item != "remove"]
+
+costs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 for item in commons:
     costs[0] += item[1]
@@ -127,17 +240,32 @@ for item in mythics:
     costs[3] += item[1]
 for item in basics:
     costs[4] += item[1]
+for item in foilC:
+    costs[5] += item[1]
+for item in foilU:
+    costs[6] += item[1]
+for item in foilR:
+    costs[7] += item[1]
+for item in foilM:
+    costs[8] += item[1]
+for item in foilBasics:
+    costs[9] += item[1]
 
-for index in range(5):
+for index in range(10):
     costs[index] = round(costs[index], 2)
 
 ev = 0
 
-ev += 11 * (costs[0] / len(commons))
+ev += (484 / 45) * (costs[0] / len(commons))
 ev += 3 * (costs[1] / len(uncommons))
 ev += (6.4 / 7.4) * (costs[2] / len(rares))
 ev += (1 / 7.4) * (costs[3] / len(mythics))
 ev += costs[4] / len(basics)
+ev += (121 / 720) * (costs[5] / len(foilC))
+ev += (33 / 720) * (costs[5] / len(foilU))
+ev += (11 / 720) * (6.4 / 7.4) * (costs[5] / len(foilR))
+ev += (11 / 720) * (1 / 7.4) * (costs[5] / len(foilM))
+ev += (11 / 720) * (costs[5] / len(foilBasics))
 
 ev = round(ev, 2)
 
